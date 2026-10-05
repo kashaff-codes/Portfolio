@@ -942,7 +942,8 @@
       <p class="hero-tagline">
         I build <strong>React and TypeScript products</strong> end to end — and the CI gates
         that keep them shipping. Five live apps, an eight-check pipeline, and a bug I
-        chased into Supabase's connection pooler — and a published audit of my own pipeline.
+        chased into Supabase's connection pooler — a conformance kit that checks Supabase Lite
+        against real Supabase, with a fix sent upstream — and a published audit of my own pipeline.
       </p>
 
       <div class="hero-roles">
@@ -972,8 +973,8 @@
           <div class="stat-label">check CI gate</div>
         </div>
         <div class="stat-block">
-          <div class="stat-num">1</div>
-          <div class="stat-label">Supabase OSS contribution</div>
+          <div class="stat-num">2</div>
+          <div class="stat-label">open-source contributions</div>
         </div>
         <div class="stat-block">
           <div class="stat-num">1</div>
@@ -992,7 +993,67 @@
 
     <div class="projects-grid">
 
-      <!-- APOLLO-M : the only Next.js / RSC work, so it leads -->
+      <!-- Supabase Lite conformance kit : leads -->
+      <div class="project-card featured fade-up">
+        <span class="project-tag amber">Supabase &middot; PostgREST &middot; GoTrue</span>
+        <div class="project-title">Supabase Lite conformance kit</div>
+        <p class="project-desc">
+          A differential test kit: the same 81 supabase-js calls go to real Supabase (Postgres) and
+          to Supabase Lite (SQLite), and every difference is classified by how much it would hurt an
+          app &mdash; silent wrong data first. 48 failing cases trace to <strong>22 root causes</strong>,
+          each linked to the PostgREST (Haskell) or GoTrue (Go) code that defines the correct
+          behaviour. Runs in GitHub Actions and republishes the report on every push.
+        </p>
+        <p class="project-desc">
+          Then I fixed two of them upstream: case-sensitive <code>like</code> and Postgres NULL
+          ordering, with 13 new tests. Pointed at the fix, the kit went from <strong>33 to 36
+          passing cases and 15 to 12 silent wrong-data findings</strong> &mdash; and nothing else moved.
+        </p>
+        <div class="project-stack">
+          <span class="stack-tag">TypeScript</span>
+          <span class="stack-tag">supabase-js</span>
+          <span class="stack-tag">PostgreSQL</span>
+          <span class="stack-tag">SQLite</span>
+          <span class="stack-tag">Haskell &middot; Go (source)</span>
+          <span class="stack-tag">GitHub Actions</span>
+        </div>
+        <div class="project-links">
+          <a href="https://kashaffatimajaffrey-design.github.io/supalite-conformance/" target="_blank" rel="noopener" class="link-btn primary">&#8599; Live report</a>
+          <a href="https://loom.com/share/0997a4b3062d48a1b7e1e290dffcd052" target="_blank" rel="noopener" class="link-btn">&#9654; 3-min walkthrough</a>
+          <a href="https://github.com/olirice/supabase-lite/pull/1" target="_blank" rel="noopener" class="link-btn">&#8997; Upstream PR</a>
+          <a href="https://github.com/kashaffatimajaffrey-design/supalite-conformance" target="_blank" rel="noopener" class="link-btn">&#8997; GitHub</a>
+        </div>
+      </div>
+
+      <!-- Occuris Echo -->
+      <div class="project-card featured fade-up">
+        <span class="project-tag green">Hackathon &middot; Voice agent &middot; Accessibility</span>
+        <div class="project-title">Occuris Echo</div>
+        <p class="project-desc">
+          A voice-first agent for people with motor or vision impairments. One spoken sentence becomes
+          actions across Gmail, Google Calendar, Slack and a Google Sheets ledger, and Echo tells you
+          exactly what it did &mdash; including what failed. Deterministic rules first, Claude only for
+          what they can't settle; it asks instead of guessing, confirms before anything irreversible,
+          and never sends twice. Built solo during the Multi-App AI Agent Hackathon, 13 Sep 2026.
+        </p>
+        <p class="project-desc">
+          <strong>57/57 known-answer cases pass with 0 silent failures.</strong> Switch the
+          deterministic layer off and the same agent produces 3 &mdash; it guesses the wrong Patel and
+          books lunch at 7pm instead of 2.
+        </p>
+        <div class="project-stack">
+          <span class="stack-tag">Python</span>
+          <span class="stack-tag">Claude</span>
+          <span class="stack-tag">Web Speech API</span>
+          <span class="stack-tag">Gmail &middot; Calendar &middot; Slack &middot; Sheets</span>
+        </div>
+        <div class="project-links">
+          <a href="https://www.loom.com/share/6bd1cf3edd624f7abde12051eb732f79" target="_blank" rel="noopener" class="link-btn primary">&#9654; Demo</a>
+          <a href="https://github.com/kashaffatimajaffrey-design/occuris-echo" target="_blank" rel="noopener" class="link-btn">&#8997; GitHub</a>
+        </div>
+      </div>
+
+      <!-- APOLLO-M : the only Next.js / RSC work -->
       <div class="project-card featured fade-up">
         <span class="project-tag steel">Next.js 16 &middot; React 19 &middot; Supabase</span>
         <div class="project-title">APOLLO-M</div>
@@ -1071,6 +1132,31 @@
           <a href="https://supabase-ai-eval.vercel.app" target="_blank" class="link-btn primary">&#8599; Live dashboard</a>
           <a href="https://kashaffatimajaffrey-design.github.io/supabase-ai-eval/" target="_blank" class="link-btn">&#8599; Docs</a>
           <a href="https://github.com/kashaffatimajaffrey-design/supabase-ai-eval" target="_blank" class="link-btn">⌥ GitHub</a>
+        </div>
+      </div>
+
+      <!-- Pearls AQI Predictor -->
+      <div class="project-card fade-up">
+        <span class="project-tag steel">ML &middot; MLOps &middot; Forecasting</span>
+        <div class="project-title">Pearls AQI Predictor</div>
+        <p class="project-desc">
+          Three-day air-quality forecasts for Karachi on a fully serverless stack, built for the
+          10Pearls internship. Hourly pipelines in GitHub Actions fetch data, engineer ~150 features,
+          retrain and compare seven model families, and promote the best to a registry &mdash; the
+          dashboard updates with no manual step. Adding known-future weather cut RMSE from 8.63 to
+          7.74 (R&sup2; 0.21 &rarr; 0.36), close to the ceiling measured before it was built.
+        </p>
+        <div class="project-stack">
+          <span class="stack-tag">Python</span>
+          <span class="stack-tag">scikit-learn</span>
+          <span class="stack-tag">SHAP</span>
+          <span class="stack-tag">Streamlit</span>
+          <span class="stack-tag">Flask</span>
+          <span class="stack-tag">GitHub Actions</span>
+        </div>
+        <div class="project-links">
+          <a href="https://pearls-aqi-predictor-5upvktvwg4pwnegfofuvoi.streamlit.app" target="_blank" rel="noopener" class="link-btn primary">&#8599; Live dashboard</a>
+          <a href="https://github.com/kashaffatimajaffrey-design/pearls-aqi-predictor" target="_blank" rel="noopener" class="link-btn">&#8997; GitHub</a>
         </div>
       </div>
 
@@ -1231,6 +1317,29 @@
     <div class="section-title">Debugging in public</div>
 
     <div class="projects-grid">
+      <div class="project-card featured fade-up">
+        <span class="project-tag amber">Supabase Lite &middot; Pull request + issue</span>
+        <div class="project-title">olirice/supabase-lite #1 &amp; #2</div>
+        <p class="project-desc">
+          From my conformance kit back to the project: an issue listing every case where Supabase Lite
+          returns success with different data than Supabase, each with the call, both results and where
+          it comes from in Lite's code &mdash; and a PR fixing two of them. <code>like</code> now compiles
+          to SQLite <code>GLOB</code> so it's case-sensitive like Postgres, and <code>ORDER BY</code>
+          spells out Postgres's default NULL position. 13 new tests, full suite passing, and a
+          before/after run showing exactly three cases flip to pass.
+        </p>
+        <div class="project-stack">
+          <span class="stack-tag">TypeScript</span>
+          <span class="stack-tag">SQLite</span>
+          <span class="stack-tag">PostgREST semantics</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/olirice/supabase-lite/pull/1" target="_blank" rel="noopener" class="link-btn primary">&#8997; The PR</a>
+          <a href="https://github.com/olirice/supabase-lite/issues/2" target="_blank" rel="noopener" class="link-btn">&#8599; The issue</a>
+          <a href="https://github.com/kashaffatimajaffrey-design/supalite-conformance/actions/runs/37139264354" target="_blank" rel="noopener" class="link-btn">&#8599; Before/after run</a>
+        </div>
+      </div>
+
       <div class="project-card featured fade-up">
         <span class="project-tag amber">Supabase &middot; Supavisor &middot; PostgreSQL</span>
         <div class="project-title">supabase/supavisor #1051</div>

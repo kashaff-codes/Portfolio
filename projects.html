@@ -399,6 +399,67 @@
     <div class="section-label">Flagship</div>
     <div class="projects-grid">
 
+      <!-- Supabase Lite conformance kit -->
+      <div class="project-card featured fade-up" data-cat="flagship fullstack demo">
+        <div class="card-top">
+          <span class="card-tag amber">Supabase &middot; PostgREST &middot; GoTrue</span>
+        </div>
+        <div class="card-title">Supabase Lite conformance kit</div>
+        <div class="card-tagline">Same supabase-js calls, two backends, every difference ranked</div>
+        <p class="card-desc">
+          Sends 81 identical supabase-js calls to real Supabase (Postgres) and to Supabase Lite
+          (SQLite), normalizes what may legitimately differ, and classifies every remaining difference
+          by severity &mdash; silent wrong data first, clearly-declared gaps last. The report is
+          rebuilt and republished by GitHub Actions on every push.
+        </p>
+        <ul class="card-highlights">
+          <li><strong>48 failures, 22 root causes</strong> &mdash; grouped by cause, so it counts problems, not symptoms</li>
+          <li><strong>Read the reference source</strong> &mdash; each cause links to the PostgREST (Haskell) or GoTrue (Go) lines that define the right behaviour</li>
+          <li><strong>Fixed two upstream</strong> &mdash; case-sensitive <code>like</code> and Postgres NULL ordering, 13 new tests</li>
+          <li><strong>Proved it</strong> &mdash; against the fix: 33 &rarr; 36 passing, 15 &rarr; 12 silent wrong-data findings, nothing else moved</li>
+        </ul>
+        <div class="card-stack">
+          <span class="stack-tag">TypeScript</span><span class="stack-tag">supabase-js</span>
+          <span class="stack-tag">PostgreSQL</span><span class="stack-tag">SQLite</span>
+          <span class="stack-tag">Haskell &middot; Go (source)</span><span class="stack-tag">GitHub Actions</span>
+        </div>
+        <div class="card-links">
+          <a href="https://kashaffatimajaffrey-design.github.io/supalite-conformance/" target="_blank" rel="noopener" class="link-btn primary">&#8599; Live report</a>
+          <a href="https://loom.com/share/0997a4b3062d48a1b7e1e290dffcd052" target="_blank" rel="noopener" class="link-btn">&#9654; Walkthrough</a>
+          <a href="https://github.com/olirice/supabase-lite/pull/1" target="_blank" rel="noopener" class="link-btn">&#8997; Upstream PR</a>
+          <a href="https://github.com/olirice/supabase-lite/issues/2" target="_blank" rel="noopener" class="link-btn">&#8599; Issue</a>
+          <a href="https://github.com/kashaffatimajaffrey-design/supalite-conformance" target="_blank" rel="noopener" class="link-btn">&#8997; GitHub</a>
+        </div>
+      </div>
+
+      <!-- Occuris Echo -->
+      <div class="project-card featured fade-up" data-cat="flagship ai demo">
+        <div class="card-top">
+          <span class="card-tag green">Hackathon &middot; Voice agent &middot; Accessibility</span>
+        </div>
+        <div class="card-title">Occuris Echo</div>
+        <div class="card-tagline">One sentence &rarr; four apps &rarr; it tells you what it actually did</div>
+        <p class="card-desc">
+          A voice-first agent for people with motor or vision impairments, who can't easily check or
+          undo an agent's work. One spoken sentence becomes actions across Gmail, Google Calendar, Slack
+          and a Google Sheets ledger. Built solo during the Multi-App AI Agent Hackathon, 13 Sep 2026.
+        </p>
+        <ul class="card-highlights">
+          <li><strong>57/57 known-answer cases, 0 silent failures</strong> &mdash; scored per step on in-memory twins of all four apps</li>
+          <li><strong>The ablation is the argument</strong> &mdash; rules off, the same agent guesses the wrong Patel and books 7pm instead of 2</li>
+          <li><strong>Asks, confirms, never repeats</strong> &mdash; one question instead of a guess, a yes before anything irreversible, idempotency keys on every action</li>
+          <li><strong>Echoes back reality</strong> &mdash; the read-back is built from action statuses, so a partial failure is said out loud</li>
+        </ul>
+        <div class="card-stack">
+          <span class="stack-tag">Python</span><span class="stack-tag">Claude</span>
+          <span class="stack-tag">Web Speech API</span><span class="stack-tag">Gmail &middot; Calendar &middot; Slack &middot; Sheets</span>
+        </div>
+        <div class="card-links">
+          <a href="https://www.loom.com/share/6bd1cf3edd624f7abde12051eb732f79" target="_blank" rel="noopener" class="link-btn primary">&#9654; Demo</a>
+          <a href="https://github.com/kashaffatimajaffrey-design/occuris-echo" target="_blank" rel="noopener" class="link-btn">&#8997; GitHub</a>
+        </div>
+      </div>
+
       <!-- APOLLO-M -->
       <div class="project-card featured fade-up" data-cat="flagship frontend fullstack">
         <div class="card-top">
@@ -666,6 +727,35 @@
   <div class="section section-block" id="block-other" style="padding-top:3.5rem;">
     <div class="section-label">ML · Full-Stack</div>
     <div class="projects-grid">
+
+      <!-- Pearls AQI Predictor -->
+      <div class="project-card fade-up" data-cat="ml">
+        <div class="card-top">
+          <span class="card-tag steel">ML &middot; MLOps &middot; Forecasting</span>
+        </div>
+        <div class="card-title">Pearls AQI Predictor</div>
+        <div class="card-tagline">Three-day AQI forecasts that update themselves &mdash; 10Pearls internship</div>
+        <p class="card-desc">
+          Hourly pollutant and weather data for Karachi, ~150 engineered features, seven model families
+          compared on a chronological split, the best promoted to a registry and served through a
+          Streamlit dashboard and a Flask API. Every stage runs on a schedule in GitHub Actions, so
+          the data, the model and the dashboard stay current with no manual step.
+        </p>
+        <ul class="card-highlights">
+          <li><strong>Known-future weather</strong> &mdash; RMSE 8.63 &rarr; 7.74, R&sup2; 0.21 &rarr; 0.36, close to the ceiling measured before building it</li>
+          <li><strong>Explained</strong> &mdash; SHAP shows the model recovered the physics: more wind and ventilation, lower AQI</li>
+          <li><strong>Operated</strong> &mdash; hazardous-AQI alerts, Prometheus/Grafana monitoring, no API keys required</li>
+        </ul>
+        <div class="card-stack">
+          <span class="stack-tag">Python</span><span class="stack-tag">scikit-learn</span>
+          <span class="stack-tag">SHAP</span><span class="stack-tag">Streamlit</span>
+          <span class="stack-tag">Flask</span><span class="stack-tag">GitHub Actions</span>
+        </div>
+        <div class="card-links">
+          <a href="https://pearls-aqi-predictor-5upvktvwg4pwnegfofuvoi.streamlit.app" target="_blank" rel="noopener" class="link-btn primary">&#8599; Live dashboard</a>
+          <a href="https://github.com/kashaffatimajaffrey-design/pearls-aqi-predictor" target="_blank" rel="noopener" class="link-btn">&#8997; GitHub</a>
+        </div>
+      </div>
 
       <!-- Vehicle Emission ML -->
       <div class="project-card fade-up" data-cat="ml">
