@@ -562,19 +562,20 @@
         <div class="card-tagline">Multi-agent supply-chain console &mdash; formerly SemiChain AI</div>
         <p class="card-desc">
           The multi-agent console for Occuris AI, aimed at semiconductor and electronics supply chains:
-          a FastAPI backend and a React + TypeScript &ldquo;Command Deck&rdquo; with multi-agent chat on
-          Gemini over a SQLite bill-of-materials store. Stated as it actually stands &mdash; what runs today
-          and what is scaffolded are listed separately.
+          a FastAPI backend and a React + TypeScript &ldquo;Command Deck&rdquo; with multi-agent chat over
+          Ollama, Claude or Groq and a SQLite bill-of-materials store. Stated as it actually stands &mdash;
+          what runs today, what needs credentials, and the known gaps are listed separately.
         </p>
         <ul class="card-highlights">
           <li><strong>Working locally</strong> &mdash; multi-agent chat, BOM storage, deterministic spec-match, lifecycle, risk and scenario logic</li>
-          <li><strong>Scaffolded, not live</strong> &mdash; live news/weather/supplier feeds, webhook intake, per-tenant alert stream, a LangGraph decision agent</li>
-          <li><strong>Multi-tenant by design</strong> &mdash; Supabase schema with RBAC and row-level security written; zero tenants in production</li>
+          <li><strong>Built since the demo</strong> &mdash; Supabase Auth gate that takes the tenant from the verified session, tenant onboarding, an authenticated Occuralog proxy</li>
+          <li><strong>Needs credentials</strong> &mdash; Supabase/pgvector storage migration, live news/weather/supplier feeds, webhook intake, a LangGraph decision agent</li>
+          <li><strong>Known gaps, stated</strong> &mdash; Occuralog sessions and the alert stream are not yet tenant-scoped; zero tenants in production</li>
         </ul>
         <div class="card-stack">
           <span class="stack-tag">Python</span><span class="stack-tag">FastAPI</span>
           <span class="stack-tag">React</span><span class="stack-tag">TypeScript</span>
-          <span class="stack-tag">Gemini</span><span class="stack-tag">LangGraph</span>
+          <span class="stack-tag">Claude · Ollama · Groq</span><span class="stack-tag">LangGraph</span>
           <span class="stack-tag">SQLite</span><span class="stack-tag">Supabase</span>
         </div>
         <div class="card-links">

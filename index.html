@@ -1271,23 +1271,24 @@
           <div class="highlight-dot"></div>
           <div class="highlight-text">
             <strong>Occuris Command &mdash; working locally</strong>
-            FastAPI backend, React &ldquo;Command Deck&rdquo;, multi-agent chat on Gemini, SQLite
-            bill-of-materials store.
+            FastAPI backend, React &ldquo;Command Deck&rdquo;, SQLite bill-of-materials store, and
+            multi-agent chat over Ollama, Claude or Groq &mdash; every answer names the model that wrote it.
           </div>
         </div>
         <div class="highlight-item">
           <div class="highlight-dot"></div>
           <div class="highlight-text">
-            <strong>Occuris Command &mdash; scaffolded, not live</strong>
-            Supabase / pgvector migration, LangGraph decision path, webhook intake and per-tenant alert
-            stream. Routes and schema exist; they need credentials and a storage migration.
+            <strong>Occuris Command &mdash; built since the demo</strong>
+            Supabase Auth gate that derives the tenant from the verified session, tenant onboarding,
+            and an authenticated proxy in front of Occuralog. Runs once a Supabase project is configured.
           </div>
         </div>
         <div class="highlight-item">
           <div class="highlight-dot"></div>
           <div class="highlight-text">
-            <strong>Multi-tenant by design, zero tenants in production</strong>
-            RBAC, JWT auth, and row-level security are in the schema. Nobody is on it yet.
+            <strong>Not live yet, and the known gaps</strong>
+            Supabase/pgvector storage migration, live feeds and the LangGraph decision path need credentials.
+            Occuralog sessions and the alert stream are not yet tenant-scoped. Zero tenants in production.
           </div>
         </div>
         <div class="highlight-item">
@@ -1420,8 +1421,9 @@
           <ul class="exp-bullets">
             <li>Founded Occuris AI; pivoted to lead with Occuralog — a library that turns WhatsApp and Excel operational records into a unified, queryable event log</li>
             <li>Built Occuralog v0.1: Rust ingestion core and a WhatsApp export parser with rule-based extraction on a small hand-labeled Roman Urdu/English sample</li>
-            <li>Built Occuris Command (formerly SemiChain AI): FastAPI + React multi-agent supply-chain console, running locally on Gemini and SQLite</li>
-            <li>Designed the multi-tenant schema (RBAC, JWT, row-level security) and Supabase/pgvector migration — scaffolded, pre-launch, no customers yet</li>
+            <li>Built Occuris Command (formerly SemiChain AI): FastAPI + React multi-agent supply-chain console with provider-labelled chat over Ollama, Claude or Groq</li>
+            <li>Built its Supabase Auth gate, tenant onboarding and an authenticated Occuralog proxy; designed the multi-tenant schema with row-level security — pre-launch, no customers yet</li>
+            <li>Pitched Occuris at ITCN Asia, Karachi, Sep 2026</li>
             <li>Cut the planned SAP S/4HANA integration to focus on unstructured, code-switched operational data</li>
           </ul>
         </div>
