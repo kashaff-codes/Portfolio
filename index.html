@@ -75,7 +75,7 @@
     strong { font-weight: 600; }
     img { display: block; max-width: 100%; height: auto; }
     .pixel { font-family: 'Press Start 2P', monospace; font-weight: 400; }
-    .wrap { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+    .wrap { max-width: 1140px; margin: 0 auto; padding: 0 20px; }
     :focus-visible { outline: 3px solid var(--violet); outline-offset: 2px; border-radius: 4px; }
 
     /* Top bar */
@@ -127,7 +127,8 @@
     h1 { font-size: clamp(40px, 7vw, 60px); line-height: 1.02; letter-spacing: -0.03em; font-weight: 700; }
     .hook { font-size: clamp(20px, 2.6vw, 24px); line-height: 1.35; margin: 16px 0 12px; font-weight: 600; }
     .hook mark { background: var(--lavender); color: #1A1820; padding: 0 4px; border-radius: 4px; }
-    .sub { color: var(--muted); font-size: 16.5px; margin-bottom: 24px; max-width: 540px; }
+    .sub { color: var(--muted); font-size: 16.5px; margin-bottom: 10px; max-width: 540px; }
+    .cred { font-size: 15px; font-weight: 600; margin-bottom: 22px; }
     .proof {
       background: var(--surface); border: 2px solid var(--ink); border-radius: 16px;
       padding: 24px; box-shadow: 6px 6px 0 var(--lavender);
@@ -145,7 +146,7 @@
     /* LAYER 2 + 3 — main quests: outcome line (30 s), problem/build/links (60 s) */
     .quest {
       background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
-      display: grid; grid-template-columns: 44% 1fr; overflow: hidden; margin-bottom: 18px;
+      display: grid; grid-template-columns: 58% 1fr; overflow: hidden; margin-bottom: 18px;
     }
     .shot { background: var(--lavender-soft); border-right: 1px solid var(--line); display: flex; align-items: center; }
     .shot img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; }
@@ -170,6 +171,20 @@
     .case-body h4 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink); margin-bottom: 4px; }
     .case-body ul { padding-left: 18px; display: grid; gap: 5px; }
 
+    .zoom { display: block; width: 100%; cursor: zoom-in; position: relative; }
+    .zoom::after {
+      content: '⤢ Enlarge'; position: absolute; right: 10px; bottom: 10px; font: 600 12px 'Inter', sans-serif;
+      background: rgba(26, 24, 32, .82); color: #fff; padding: 4px 8px; border-radius: 6px; opacity: 0; transition: opacity .15s;
+    }
+    .zoom:hover::after, .zoom:focus-visible::after { opacity: 1; }
+    dialog.viewer { border: 0; padding: 0; background: transparent; max-width: min(96vw, 1600px); margin: auto; }
+    dialog.viewer::backdrop { background: rgba(10, 9, 14, .86); }
+    dialog.viewer img { width: 100%; height: auto; max-height: 88vh; object-fit: contain; border-radius: 10px; }
+    dialog.viewer button {
+      position: fixed; top: 16px; right: 16px; font: 600 14px 'Inter', sans-serif; cursor: pointer;
+      background: #fff; color: #1A1820; border: 2px solid #1A1820; border-radius: 8px; padding: 6px 12px;
+    }
+
     /* Side quests */
     .side { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
     .side-card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; }
@@ -189,6 +204,7 @@
       background: var(--lavender); color: #1A1820; margin-bottom: 12px;
     }
     .principle p { font-weight: 600; font-size: 16.5px; line-height: 1.45; }
+    .principle a.rule-link { color: inherit; text-decoration: underline; text-decoration-color: var(--violet); text-decoration-thickness: 2px; }
     .principle small { display: block; color: var(--muted); font-size: 14px; margin-top: 8px; }
 
     /* Experience */
@@ -197,7 +213,8 @@
     .level h3 { font-size: 19px; }
     .level h3 span { color: var(--muted); font-weight: 500; }
     .when { font-size: 14px; color: var(--muted); white-space: nowrap; }
-    .now { font-size: 8px; background: var(--lavender); color: #1A1820; padding: 4px 6px; border-radius: 5px; margin-left: 8px; vertical-align: 3px; }
+    .level h3 .now { font-size: 9px; background: var(--lavender); color: #1A1820; padding: 4px 6px; border-radius: 5px; margin-left: 8px; vertical-align: 3px; }
+    .tagpill { font-size: 11px; font-weight: 600; letter-spacing: .06em; color: var(--muted); border: 1px solid var(--line); padding: 2px 7px; border-radius: 5px; margin-left: 8px; vertical-align: 2px; }
     .level .headline { margin-top: 8px; }
     .level details { margin-top: 8px; }
     .level summary { cursor: pointer; color: var(--violet); font-weight: 600; font-size: 14px; }
@@ -305,6 +322,7 @@
         <h1>Kashaf Fatima</h1>
         <p class="hook">I build AI agents, and the tests that catch them <mark>being confidently wrong.</mark></p>
         <p class="sub">Founder of Occuris AI. Before that, AI/ML engineer at ProForecast (UK). Based in Karachi, open to roles remote or in Karachi.</p>
+        <p class="cred">📄 <a href="https://doi.org/10.5281/zenodo.22395202" target="_blank" rel="noopener">Sole-author preprint on auditing a deployed ML pipeline</a></p>
         <div class="actions">
           <a href="mailto:kash.fatima7@gmail.com" class="btn primary">Email me</a>
           <a href="https://github.com/kashaffatimajaffrey-design" target="_blank" rel="noopener" class="btn">GitHub</a>
@@ -327,7 +345,7 @@
 
       <!-- Quest 1 -->
       <article class="quest">
-        <div class="shot"><img src="img/echo.jpg" width="800" height="500" loading="lazy" alt="Occuris Echo after one typed request: it has drafted a reply to Dr. Anita Patel, added the appointment to the calendar, drafted a Slack message to Priya, and asks 'Send it?'"></div>
+        <div class="shot"><a class="zoom" href="img/echo.jpg" aria-label="Open full-size screenshot"><img src="img/echo.jpg" width="1600" height="1000" loading="lazy" alt="Occuris Echo after one typed request: it has drafted a reply to Dr. Anita Patel, added the appointment to the calendar, drafted a Slack message to Priya, and asks 'Send it?'"></a></div>
         <div class="quest-body">
           <div class="rank pixel">QUEST 1 · HACKATHON · SEP 2026</div>
           <h3>Occuris Echo</h3>
@@ -376,7 +394,7 @@
 
       <!-- Quest 2 -->
       <article class="quest">
-        <div class="shot"><img src="img/conformance.jpg" width="800" height="500" loading="lazy" alt="The Supabase Lite conformance report: 15 silent wrong-data findings, 12 wrong shape, 10 wrong error format, 7 loud bugs, 4 clearly unsupported, 33 passing"></div>
+        <div class="shot"><a class="zoom" href="img/conformance.jpg" aria-label="Open full-size screenshot"><img src="img/conformance.jpg" width="1600" height="1000" loading="lazy" alt="The Supabase Lite conformance report: 15 silent wrong-data findings, 12 wrong shape, 10 wrong error format, 7 loud bugs, 4 clearly unsupported, 33 passing"></a></div>
         <div class="quest-body">
           <div class="rank pixel">QUEST 2 · OPEN SOURCE · OCT 2026</div>
           <h3>Supabase Lite Conformance Kit</h3>
@@ -426,7 +444,7 @@
 
       <!-- Quest 3 -->
       <article class="quest">
-        <div class="shot"><img src="img/ai-eval.jpg" width="800" height="500" loading="lazy" alt="The supabase-ai-eval dashboard: 86% pass rate on the latest run, 0.62 average retrieval relevance, and per-query results"></div>
+        <div class="shot"><a class="zoom" href="img/ai-eval.jpg" aria-label="Open full-size screenshot"><img src="img/ai-eval.jpg" width="1600" height="1000" loading="lazy" alt="The supabase-ai-eval dashboard: 86% pass rate on the latest run, 0.62 average retrieval relevance, and per-query results"></a></div>
         <div class="quest-body">
           <div class="rank pixel">QUEST 3 · EVAL-FIRST RAG AGENT</div>
           <h3>supabase-ai-eval</h3>
@@ -473,7 +491,7 @@
       <h3 class="zone-label pixel" style="margin-top:36px">SIDE QUESTS</h3>
       <div class="side">
         <article class="side-card">
-          <img src="img/supavisor.jpg" width="799" height="506" loading="lazy" alt="GitHub issue supabase/supavisor #1051: a serializable transaction can silently discard all its writes">
+          <a class="zoom" href="img/supavisor.jpg" aria-label="Open full-size screenshot"><img src="img/supavisor.jpg" width="1600" height="1000" loading="lazy" alt="GitHub issue supabase/supavisor #1051: a serializable transaction can silently discard all its writes"></a>
           <div class="side-body">
             <h3>supabase/supavisor #1051</h3>
             <p><strong>Narrowed a pooler bug that silently drops writes to prepared statements:</strong> 10 of 16 runs failed with them on, 0 of 16 off.</p>
@@ -484,7 +502,7 @@
           </div>
         </article>
         <article class="side-card">
-          <img src="img/occuralog.jpg" width="800" height="500" loading="lazy" alt="Occuralog landing page: Where is my order?">
+          <a class="zoom" href="img/occuralog.jpg" aria-label="Open full-size screenshot"><img src="img/occuralog.jpg" width="1600" height="1000" loading="lazy" alt="Occuralog landing page: Where is my order?"></a>
           <div class="side-body">
             <h3>Occuralog</h3>
             <p><strong>Builds an order's timeline from a WhatsApp export</strong> in Urdu, Roman Urdu and English, and flags delays that were never followed by a dispatch.</p>
@@ -495,7 +513,7 @@
           </div>
         </article>
         <article class="side-card">
-          <img src="img/aqi.jpg" width="800" height="500" loading="lazy" alt="Pearls AQI Predictor dashboard: Karachi air-quality forecast for the next three days">
+          <a class="zoom" href="img/aqi.jpg" aria-label="Open full-size screenshot"><img src="img/aqi.jpg" width="1600" height="1000" loading="lazy" alt="Pearls AQI Predictor dashboard: Karachi air-quality forecast for the next three days"></a>
           <div class="side-body">
             <h3>Pearls AQI Predictor</h3>
             <p><strong>Cut forecast error (RMSE) from 8.63 to 7.74</strong> with a pipeline that retrains and redeploys itself every hour. Built at 10Pearls.</p>
@@ -506,7 +524,7 @@
           </div>
         </article>
         <article class="side-card">
-          <img src="img/apollo.jpg" width="800" height="500" loading="lazy" alt="APOLLO-M: a table of 24 communities ranked by instability">
+          <a class="zoom" href="img/apollo.jpg" aria-label="Open full-size screenshot"><img src="img/apollo.jpg" width="1600" height="1000" loading="lazy" alt="APOLLO-M: a table of 24 communities ranked by instability"></a>
           <div class="side-body">
             <h3>APOLLO-M</h3>
             <p><strong>Ranks 24 online communities by instability</strong>, with a 4 ms warm first byte and row-level security as the auth boundary. The pipeline I audit in my preprint.</p>
@@ -525,7 +543,7 @@
       <h2>How I work</h2>
       <p class="zone-sub">Three rules I build by.</p>
       <div class="principles">
-        <div class="principle"><p>I assume the AI is wrong until a test says otherwise.</p><small>So every agent I ship comes with a known-answer test set.</small></div>
+        <div class="principle"><p><a class="rule-link" href="https://doi.org/10.5281/zenodo.22395202" target="_blank" rel="noopener">I assume the AI is wrong until a test says otherwise.</a></p><small>So every agent I ship comes with a known-answer test set. My preprint shows the method on my own pipeline.</small></div>
         <div class="principle"><p>When the rules can't decide, the agent asks. It doesn't guess.</p><small>One question costs a second. A confident wrong answer costs trust.</small></div>
         <div class="principle"><p>Anything that can't be undone waits for a person to say yes.</p><small>Emails, messages, purchase orders: a person approves first.</small></div>
       </div>
@@ -557,22 +575,6 @@
 
       <article class="level">
         <div class="level-head">
-          <h3>Data Science Intern <span>· 10Pearls (Shine program)</span></h3>
-          <span class="when">Jul 2026 – Sep 2026</span>
-        </div>
-        <p class="headline">Cut air-quality forecast error (RMSE) from 8.63 to 7.74 for Karachi with a pipeline that retrains itself every hour.</p>
-        <details>
-          <summary>More</summary>
-          <ul>
-            <li>Built Pearls AQI Predictor: three-day air-quality forecasts on a fully serverless stack.</li>
-            <li>Hourly GitHub Actions jobs fetch pollutant and weather data, build ~150 features, retrain and compare seven model families, and promote the best to a model registry with no manual step.</li>
-            <li>R² rose from 0.21 to 0.36 after adding known-future weather; SHAP showed the model learned that more wind means lower AQI.</li>
-          </ul>
-        </details>
-      </article>
-
-      <article class="level">
-        <div class="level-head">
           <h3>AI/ML Engineer <span>· ProForecast (UK, remote)</span></h3>
           <span class="when">Sep 2024 – Mar 2026</span>
         </div>
@@ -583,6 +585,22 @@
             <li>Fixed semantic-search and intent failures with BERT/RoBERTa embeddings, scoring each answer on intent and the figure returned.</li>
             <li>Delivered 12-month forecasts for clients in Germany, the US and elsewhere by building RAPIER's pipeline over 18 months of client finance and warehouse data on HDFS, Spark and Snowflake.</li>
             <li>Shipped every change to both production products (Django, DRF, TensorFlow) through pull-request review, and wrote both products' technical documentation.</li>
+          </ul>
+        </details>
+      </article>
+
+      <article class="level">
+        <div class="level-head">
+          <h3>Data Science Intern <span>· 10Pearls (Shine program)</span><span class="tagpill">INTERNSHIP</span></h3>
+          <span class="when">Jul 2026 – Sep 2026 · alongside Occuris AI</span>
+        </div>
+        <p class="headline">Cut air-quality forecast error (RMSE) from 8.63 to 7.74 for Karachi with a pipeline that retrains itself every hour.</p>
+        <details>
+          <summary>More</summary>
+          <ul>
+            <li>Built Pearls AQI Predictor: three-day air-quality forecasts on a fully serverless stack.</li>
+            <li>Hourly GitHub Actions jobs fetch pollutant and weather data, build ~150 features, retrain and compare seven model families, and promote the best to a model registry with no manual step.</li>
+            <li>R² rose from 0.21 to 0.36 after adding known-future weather; SHAP showed the model learned that more wind means lower AQI.</li>
           </ul>
         </details>
       </article>
@@ -671,6 +689,11 @@
     </nav>
   </footer>
 
+  <dialog class="viewer" id="viewer" aria-label="Full-size screenshot">
+    <button type="button" id="viewer-close">Close ✕</button>
+    <img id="viewer-img" src="" alt="">
+  </dialog>
+
   <div class="toast" id="toast" role="status" aria-live="polite">
     <span aria-hidden="true">🏆</span>
     <div><span class="pixel">ACHIEVEMENT UNLOCKED</span><span id="toast-text"></span></div>
@@ -684,6 +707,18 @@
       root.dataset.theme = dark ? 'light' : 'dark';
       try { localStorage.setItem('theme', root.dataset.theme); } catch (e) {}
     });
+
+    // Screenshot viewer
+    const viewer = document.getElementById('viewer'), vimg = document.getElementById('viewer-img');
+    document.querySelectorAll('a.zoom').forEach(a => a.addEventListener('click', e => {
+      if (!viewer.showModal) return;
+      e.preventDefault();
+      const img = a.querySelector('img');
+      vimg.src = a.href; vimg.alt = img.alt;
+      viewer.showModal();
+    }));
+    document.getElementById('viewer-close').addEventListener('click', () => viewer.close());
+    viewer.addEventListener('click', e => { if (e.target === viewer) viewer.close(); });
 
     // Close the phone menu after picking a section
     const menu = document.getElementById('menu');
