@@ -401,9 +401,9 @@
           <p class="outcome">Traced 48 failures to 22 root causes and fixed two upstream: passing cases 33 → 36, silent wrong data 15 → 12.</p>
           <div class="facts">
             <span><b>Problem:</b> Supabase Lite (SQLite) only works if apps written for Supabase (Postgres) behave the same on it. Its own tests check SQLite against itself, so they can't catch "Postgres would have returned something different."</span>
-            <span><b>What I built:</b> A kit that sends the same 81 supabase-js calls to both, diffs the answers and ranks every difference, silent wrong data first, with each cause linked to the PostgREST or GoTrue source.</span>
+            <span><b>What I built:</b> A kit that sends the same 81 supabase-js calls to both, diffs the answers and ranks every difference, silent wrong data first, with each cause traced to the line of PostgREST (Haskell) or GoTrue (Go) source that defines the correct behaviour.</span>
           </div>
-          <div class="tags"><span class="tag">TypeScript</span><span class="tag">PostgreSQL</span><span class="tag">SQLite</span><span class="tag">GitHub Actions</span></div>
+          <div class="tags"><span class="tag">TypeScript</span><span class="tag">PostgreSQL</span><span class="tag">SQLite</span><span class="tag">Go · Haskell (source)</span><span class="tag">GitHub Actions</span></div>
           <div class="links">
             <a href="https://kashaffatimajaffrey-design.github.io/supalite-conformance/" target="_blank" rel="noopener">Live report</a>
             <a href="https://www.loom.com/share/0997a4b3062d48a1b7e1e290dffcd052" target="_blank" rel="noopener">Loom walkthrough</a>
@@ -610,7 +610,7 @@
         <div class="box-body">
           <p><b>Evals:</b> known-answer and differential testing, LLM-as-judge, regression checks in CI, bootstrap and binomial confidence intervals.</p>
           <p><b>Agents &amp; LLMs:</b> LangGraph, MCP, RAG, pgvector, human-in-the-loop approval, Claude, Grok, OpenAI, Gemini, Ollama, PyTorch, TensorFlow.</p>
-          <p><b>Engineering:</b> Python, TypeScript, FastAPI, Django, React, PostgreSQL, Supabase RLS, Rust, Spark, Snowflake, AWS, Playwright, GitHub Actions.</p>
+          <p><b>Engineering:</b> Python, TypeScript, FastAPI, Django, React, PostgreSQL, Supabase RLS, Rust, Spark, Snowflake, AWS, Playwright, GitHub Actions; Go and Haskell (source reading).</p>
         </div>
       </details>
     </section>
