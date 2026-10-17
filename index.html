@@ -6,7 +6,9 @@
   <title>Kashaf Fatima — AI Engineer · Agents &amp; Evals</title>
   <meta name="description" content="AI engineer and founder of Occuris AI. I build AI agents and the tests that catch them being confidently wrong.">
   <meta name="author" content="Kashaf Fatima">
-  <meta name="theme-color" content="#FAF9F7">
+  <meta name="theme-color" content="#FAF9F7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#16141C" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
   <link rel="canonical" href="https://kashaffatimajaffrey-design.github.io/Portfolio/">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23CDBEF7'/%3E%3Ctext x='32' y='43' font-family='Arial,Helvetica,sans-serif' font-size='30' font-weight='700' text-anchor='middle' fill='%231A1820'%3Ekf%3C/text%3E%3C/svg%3E">
   <link rel="apple-touch-icon" href="https://kashaffatimajaffrey-design.github.io/Portfolio/og-image.png">
@@ -89,6 +91,20 @@
     .zones { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--muted); }
     .pip { width: 9px; height: 9px; border-radius: 2px; background: var(--line); }
     .pip.on { background: var(--violet); }
+    .menu { display: none; position: relative; }
+    .menu summary {
+      list-style: none; cursor: pointer; font-size: 14px; font-weight: 600;
+      border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+      border-radius: 8px; padding: 6px 12px;
+    }
+    .menu summary::-webkit-details-marker { display: none; }
+    .menu nav {
+      position: absolute; left: 0; top: calc(100% + 8px); min-width: 190px; margin-left: 0; gap: 0;
+      display: grid; background: var(--surface); border: 1px solid var(--line);
+      border-radius: 12px; padding: 6px; box-shadow: 4px 4px 0 var(--lavender);
+    }
+    .menu nav a { color: var(--ink); text-decoration: none; padding: 10px 12px; border-radius: 8px; font-weight: 500; }
+    .menu nav a:hover { background: var(--lavender-soft); }
     .theme-btn {
       border: 1px solid var(--line); background: var(--surface); color: var(--ink);
       border-radius: 8px; width: 34px; height: 34px; cursor: pointer; font-size: 15px;
@@ -212,7 +228,7 @@
     .final h2 { color: #1A1820; }
     .final p { margin-bottom: 18px; }
     .final .btn { border-color: #1A1820; color: #1A1820; background: #FFFFFF; box-shadow: 3px 3px 0 #1A1820; }
-    footer { padding: 28px 0 40px; color: var(--muted); font-size: 14px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    footer.wrap { padding: 28px 20px 40px; margin-top: 56px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
     footer nav { display: flex; gap: 16px; flex-wrap: wrap; }
 
     .toast {
@@ -231,7 +247,8 @@
     }
 
     @media (max-width: 820px) {
-      .bar nav { display: none; }
+      .bar > .wrap > nav { display: none; }
+      .menu { display: block; margin-left: 4px; }
       .zones { margin-left: auto; }
       .hero { grid-template-columns: 1fr; padding: 40px 0 24px; gap: 24px; }
       .proof { box-shadow: 4px 4px 0 var(--lavender); }
@@ -256,6 +273,17 @@
         <a href="#writing">Writing</a>
         <a href="#contact">Contact</a>
       </nav>
+      <details class="menu" id="menu">
+        <summary aria-label="Open section menu">Menu</summary>
+        <nav aria-label="Sections">
+          <a href="#work">Work</a>
+          <a href="#how">How I work</a>
+          <a href="#experience">Experience</a>
+          <a href="#writing">Writing</a>
+          <a href="#contact">Contact</a>
+          <a href="Kashaf_Fatima_Resume.pdf" download>Resume (PDF)</a>
+        </nav>
+      </details>
       <div class="zones" title="Sections you've explored">
         <span id="zone-count">0/5</span>
         <span class="pip" data-pip="work"></span>
@@ -273,14 +301,15 @@
     <!-- LAYER 1 · 10 seconds -->
     <section class="hero">
       <div>
-        <div class="hero-label pixel">PLAYER 1 · AI ENGINEER · FOUNDER</div>
+        <div class="hero-label pixel">AI ENGINEER · AGENTS &amp; EVALS · FOUNDER</div>
         <h1>Kashaf Fatima</h1>
         <p class="hook">I build AI agents, and the tests that catch them <mark>being confidently wrong.</mark></p>
-        <p class="sub">Founder of Occuris AI. Before that, AI/ML engineer at ProForecast (UK). Based in Karachi, working remotely.</p>
+        <p class="sub">Founder of Occuris AI. Before that, AI/ML engineer at ProForecast (UK). Based in Karachi, open to roles remote or in Karachi.</p>
         <div class="actions">
           <a href="mailto:kash.fatima7@gmail.com" class="btn primary">Email me</a>
           <a href="https://github.com/kashaffatimajaffrey-design" target="_blank" rel="noopener" class="btn">GitHub</a>
           <a href="https://www.linkedin.com/in/kashaf-fatima-jaffri67/" target="_blank" rel="noopener" class="btn">LinkedIn</a>
+          <a href="Kashaf_Fatima_Resume.pdf" download class="btn">Resume (PDF)</a>
         </div>
       </div>
       <aside class="proof" aria-label="Proof">
@@ -313,7 +342,7 @@
             <a href="https://github.com/kashaffatimajaffrey-design/occuris-echo" target="_blank" rel="noopener">Repo</a>
           </div>
           <details class="case">
-            <summary>Case study · 3 min read</summary>
+            <summary>Case study · 1 min read</summary>
             <div class="case-body">
               <div>
                 <h4>Decisions</h4>
@@ -364,7 +393,7 @@
             <a href="https://github.com/olirice/supabase-lite/pull/1" target="_blank" rel="noopener">Upstream PR</a>
           </div>
           <details class="case">
-            <summary>Case study · 3 min read</summary>
+            <summary>Case study · 1 min read</summary>
             <div class="case-body">
               <div>
                 <h4>Decisions</h4>
@@ -412,7 +441,7 @@
             <a href="https://github.com/kashaffatimajaffrey-design/supabase-ai-eval" target="_blank" rel="noopener">Repo</a>
           </div>
           <details class="case">
-            <summary>Case study · 3 min read</summary>
+            <summary>Case study · 1 min read</summary>
             <div class="case-body">
               <div>
                 <h4>Decisions</h4>
@@ -450,7 +479,7 @@
             <p><strong>Narrowed a pooler bug that silently drops writes to prepared statements:</strong> 10 of 16 runs failed with them on, 0 of 16 off.</p>
             <div class="links">
               <a href="https://github.com/supabase/supavisor/issues/1051" target="_blank" rel="noopener">Issue</a>
-              <a href="https://github.com/brianmgray/supabase-pool-bug-repro/pull/1" target="_blank" rel="noopener">My PR</a>
+              <a href="https://github.com/brianmgray/supabase-pool-bug-repro/pull/1" target="_blank" rel="noopener">My repro PR</a>
             </div>
           </div>
         </article>
@@ -621,12 +650,13 @@
     <!-- Contact -->
     <section class="final" id="contact" data-zone="contact">
       <div class="pixel">FINAL ZONE</div>
-      <h2>Player 2, ready?</h2>
-      <p>I'm open to remote AI engineering roles. Email is the fastest way to reach me.</p>
+      <h2>Let's talk.</h2>
+      <p>I'm open to AI engineering roles, remote or in Karachi. Email is the fastest way to reach me.</p>
       <div class="actions">
         <a href="mailto:kash.fatima7@gmail.com" class="btn">kash.fatima7@gmail.com</a>
         <a href="https://github.com/kashaffatimajaffrey-design" target="_blank" rel="noopener" class="btn">GitHub</a>
         <a href="https://www.linkedin.com/in/kashaf-fatima-jaffri67/" target="_blank" rel="noopener" class="btn">LinkedIn</a>
+        <a href="Kashaf_Fatima_Resume.pdf" download class="btn">Resume (PDF)</a>
       </div>
     </section>
   </main>
@@ -637,6 +667,7 @@
       <a href="mailto:kash.fatima7@gmail.com">Email</a>
       <a href="https://github.com/kashaffatimajaffrey-design" target="_blank" rel="noopener">GitHub</a>
       <a href="https://www.linkedin.com/in/kashaf-fatima-jaffri67/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="Kashaf_Fatima_Resume.pdf" download>Resume</a>
     </nav>
   </footer>
 
@@ -653,6 +684,11 @@
       root.dataset.theme = dark ? 'light' : 'dark';
       try { localStorage.setItem('theme', root.dataset.theme); } catch (e) {}
     });
+
+    // Close the phone menu after picking a section
+    const menu = document.getElementById('menu');
+    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { menu.open = false; }));
+    document.addEventListener('click', e => { if (!menu.contains(e.target)) menu.open = false; });
 
     // Degree progress, Feb 2023 – Jan 2027
     const start = new Date(2023, 1, 1), end = new Date(2027, 0, 31);
