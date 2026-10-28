@@ -444,9 +444,56 @@
 
       <!-- Quest 3 -->
       <article class="quest">
+        <div class="shot"><a class="zoom" href="img/om-toolload.jpg" aria-label="Open full-size chart"><img src="img/om-toolload.jpg" width="1600" height="1000" loading="lazy" alt="Chart of accuracy against input tokens: Observational Memory scores 45% at about 2,200 tokens, OM with pinned values 76% at about 2,300, full context 61% at about 7,900, each with 95% confidence intervals"></a></div>
+        <div class="quest-body">
+          <div class="rank pixel">QUEST 3 · AGENT MEMORY BENCHMARK · OCT 2026</div>
+          <h3>om-toolload</h3>
+          <p class="outcome">Pinning tool values took Mastra's Observational Memory from 17 to 29 of 38 correct (p = 0.008), at under a third of full context's tokens.</p>
+          <div class="facts">
+            <span><b>Problem:</b> Mastra reports 94.87% for Observational Memory on LongMemEval, a benchmark with no tool outputs. Support agents live on order IDs, tracking numbers and amounts from tool calls, and nobody had measured whether OM keeps them.</span>
+            <span><b>What I built:</b> A pre-registered benchmark: 40 known-answer support threads, six memory setups, two scorers, an audit of the scorers themselves, and two fixes using OM's own config hooks.</span>
+          </div>
+          <div class="tags"><span class="tag">TypeScript</span><span class="tag">Mastra</span><span class="tag">Ollama</span><span class="tag">McNemar · bootstrap CIs</span></div>
+          <div class="links">
+            <a href="https://youtu.be/xpHd0-6P4N8" target="_blank" rel="noopener">Demo video</a>
+            <a href="https://github.com/kashaff-codes/om-toolload" target="_blank" rel="noopener">Repo</a>
+            <a href="https://github.com/kashaff-codes/om-toolload/blob/main/PREREGISTRATION.md" target="_blank" rel="noopener">Pre-registration</a>
+          </div>
+          <details class="case">
+            <summary>Case study · 1 min read</summary>
+            <div class="case-body">
+              <div>
+                <h4>Decisions</h4>
+                <ul>
+                  <li>Committed the pre-registration before any main-run result existed, including the cut lines and which scorer would be primary.</li>
+                  <li>Audited the LLM judge on 40 planted answers first. It passed 0 of 10 near-misses, so by the pre-registered rule it became the primary scorer.</li>
+                  <li>Every setup reads byte-identical seeded threads, so differences in answers come from memory alone.</li>
+                  <li>Each wrong answer is traced: was the value dropped by the Observer, or kept and missed by the agent? Those need different fixes.</li>
+                </ul>
+              </div>
+              <div>
+                <h4>Trade-offs</h4>
+                <ul>
+                  <li>40 cases on a local 8B model: intervals of about ±10–15 points. It's a probe, not a verdict on OM.</li>
+                  <li>Thresholds were scaled down so observation and reflection fire on short threads; OM's defaults never trigger at this length.</li>
+                </ul>
+              </div>
+              <div>
+                <h4>What I'd do differently</h4>
+                <ul>
+                  <li>Longer threads and three runs. With a hosted Observer, reflection fired in only 1 of 38 threads, so the results say little about reflection, and one run gives no run-to-run spread.</li>
+                </ul>
+              </div>
+            </div>
+          </details>
+        </div>
+      </article>
+
+      <!-- Quest 4 -->
+      <article class="quest">
         <div class="shot"><a class="zoom" href="img/ai-eval.jpg" aria-label="Open full-size screenshot"><img src="img/ai-eval.jpg" width="1600" height="1000" loading="lazy" alt="The supabase-ai-eval dashboard: 86% pass rate on the latest run, 0.62 average retrieval relevance, and per-query results"></a></div>
         <div class="quest-body">
-          <div class="rank pixel">QUEST 3 · EVAL-FIRST RAG AGENT</div>
+          <div class="rank pixel">QUEST 4 · EVAL-FIRST RAG AGENT</div>
           <h3>supabase-ai-eval</h3>
           <p class="outcome">Caught an index silently wrecking recall: one wrong result at 0.18 similarity became five, led by the right one at 0.69.</p>
           <div class="facts">
@@ -498,6 +545,17 @@
             <div class="links">
               <a href="https://github.com/supabase/supavisor/issues/1051" target="_blank" rel="noopener">Issue</a>
               <a href="https://github.com/brianmgray/supabase-pool-bug-repro/pull/1" target="_blank" rel="noopener">My repro PR</a>
+            </div>
+          </div>
+        </article>
+        <article class="side-card">
+          <a class="zoom" href="img/occuris-site.jpg" aria-label="Open full-size screenshot"><img src="img/occuris-site.jpg" width="1600" height="1000" loading="lazy" alt="Occuris AI website: Your operations run on WhatsApp. Your decisions shouldn't. An isometric map of a supply chain from Dubai to Karachi, with a Roman Urdu dispatch message"></a>
+          <div class="side-body">
+            <h3>Occuris AI website</h3>
+            <p><strong>Built the company site:</strong> an interactive supply-chain map where you block a road and watch the agents work around it, plus the products, services and pilot offer.</p>
+            <div class="links">
+              <a href="https://occuris.pages.dev/" target="_blank" rel="noopener">Live site</a>
+              <a href="https://www.linkedin.com/company/occurisai" target="_blank" rel="noopener">Company LinkedIn</a>
             </div>
           </div>
         </article>
@@ -571,6 +629,10 @@
             <li>Lead a team of three. Pitched Occuris at ITCN Asia, Karachi, Sep 2026.</li>
           </ul>
         </details>
+        <div class="links" style="margin-top:10px">
+          <a href="https://occuris.pages.dev/" target="_blank" rel="noopener">Company website</a>
+          <a href="https://www.linkedin.com/company/occurisai" target="_blank" rel="noopener">Company LinkedIn</a>
+        </div>
       </article>
 
       <article class="level">
@@ -680,7 +742,7 @@
   </main>
 
   <footer class="wrap">
-    <span>© 2026 Kashaf Fatima · Last updated 17 Oct 2026</span>
+    <span>© 2026 Kashaf Fatima · Last updated 29 Oct 2026</span>
     <nav aria-label="Contact">
       <a href="mailto:kash.fatima7@gmail.com">Email</a>
       <a href="https://github.com/kashaff-codes" target="_blank" rel="noopener">GitHub</a>
