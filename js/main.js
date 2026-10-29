@@ -1,6 +1,7 @@
-import { water } from './water.js?v=7';
-import { blob } from './blob.js?v=7';
-import { school } from './school.js?v=7';
+import { water } from './water.js?v=10';
+import { lens } from './lens.js?v=10';
+import { sea as life } from './sea.js?v=10';
+import { school } from './school.js?v=10';
 
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const coarse = matchMedia('(pointer: coarse)').matches;
@@ -9,6 +10,7 @@ const ease = p => 1 - Math.pow(1 - p, 3);
 document.documentElement.classList.add('motion');
 
 const sea = water(document.getElementById('water'), { reduce });
+life(document.getElementById('sea'), { reduce });
 
 /* ---------- Toast ---------- */
 const toast = document.getElementById('toast');
@@ -19,20 +21,44 @@ function celebrate() {
   document.querySelector('.hunt')?.classList.add('done');
 }
 
-/* ---------- Hero: the blob behind the name, and its school of fish ---------- */
-// palettes: base, flow, swirl, highlight, shade
-const heroBlob = blob(document.getElementById('hero-blob'), { reduce, palette: ['#DA7B93', '#E7B0DE', '#69D9F5', '#FFB59A', '#1C3334'] });
-const diveBlob = blob(document.getElementById('dive-blob'), { reduce, palette: ['#2C6A6B', '#DA7B93', '#69D9F5', '#E7B0DE', '#0E1E20'], grain: .06 });
-const fishApi = school(document.getElementById('school'), { reduce, centerEl: document.querySelector('.hero-art'), avoidEl: document.querySelector('.hero-text'), onFound: celebrate });
+/* ---------- Hero: liquid glass drifting over the name, and a school of fish around it ---------- */
+const nameEl = document.querySelector('.name'), lensCanvas = document.getElementById('lens'), schoolCanvas = document.getElementById('school');
+const nameLines = [...document.querySelectorAll('.name > span')];
+let nameBox = null;
+const measureName = () => {
+  // the box around the letters themselves (each line is sized to its text)
+  const cr = lensCanvas.getBoundingClientRect(), k = lensCanvas.width / cr.width;
+  const rs = nameLines.map(n => n.getBoundingClientRect());
+  const l = Math.min(...rs.map(r => r.left)), r = Math.max(...rs.map(r => r.right)), t = Math.min(...rs.map(r => r.top)), b = Math.max(...rs.map(r => r.bottom));
+  nameBox = { x: (l - cr.left) * k, y: (cr.bottom - b) * k, w: (r - l) * k, h: (b - t) * k };
+};
+const heroLens = lens(lensCanvas, {
+  reduce, textEls: nameLines,
+  drops(W, H, t) {
+    if (!nameBox) measureName();
+    const { x, y, w, h } = nameBox, R = Math.min(h * .38, w * .17);
+    const cx = x + w * (.52 + .3 * Math.sin(t * .11)), cy = y + h * (.5 + .1 * Math.sin(t * .19 + 1));
+    const a = t * .35, R1 = R * .46;
+    return [[cx, cy, R], [cx + Math.cos(a) * R * 1.12, cy + Math.sin(a) * R * .8, R1]];
+  },
+});
+if (heroLens) document.querySelector('.hero').classList.add('lensed');
+addEventListener('resize', () => { measureName(); heroLens && heroLens.repaint(); });
+const fishApi = school(schoolCanvas, { reduce, centerEl: { getBoundingClientRect: () => (heroLens ? heroLens.box() : nameEl.getBoundingClientRect()) }, avoidEl: document.querySelector('.hero-copy'), onFound: celebrate });
+const diveLens = lens(document.getElementById('dive-lens'), {
+  reduce,
+  drops(W, H, t) {
+    const R = Math.min(W, H) * .2, cx = W * (.72 + .08 * Math.sin(t * .09)), cy = H * (.3 + .06 * Math.cos(t * .13));
+    return [[cx, cy, R], [cx - R * 1.3 + Math.cos(t * .3) * R * .3, cy + R * .6 + Math.sin(t * .3) * R * .2, R * .55]];
+  },
+});
 window.__site = { fish: fishApi };
-const nameLines = [...document.querySelectorAll('.name span')];
 const stack = [...document.querySelectorAll('.quests .quest')];
 const marquee = document.querySelector('.marquee-track');
-const diveArt = document.getElementById('dive-blob');
 
 /* ---------- Scroll choreography ---------- */
 const items = [...document.querySelectorAll('[data-m]')];
-const heroArt = document.querySelector('.hero-art'), heroText = document.querySelector('.hero-text');
+const heroText = document.querySelector('.hero-text');
 const dive = document.querySelector('.dive');
 const depthBar = document.querySelector('.depth-line i'), depthRead = document.querySelector('.depth-read');
 let ticking = false;
@@ -63,9 +89,10 @@ function choreograph() {
   if (!reduce) {
     // hero: the blob swells and turns as you leave, the name's letters drift apart, the text lifts away
     const e = clamp(scrollY / (vh * .95));
-    if (heroArt) heroArt.style.transform = `translate3d(${(-e * 18).toFixed(1)}vw, ${(e * 12).toFixed(1)}vh, 0) scale(${(1 + e * .45).toFixed(4)})`;
-    heroBlob.setSpin(e * 1.6);
+    heroLens && heroLens.setSpin(e * 2.2);
     nameLines.forEach((n, i) => { n.style.letterSpacing = (.02 + e * .22).toFixed(3) + 'em'; n.style.transform = `translate3d(${((i ? 1 : -1) * e * 6).toFixed(2)}vw, 0, 0)`; });
+    if (heroLens) { measureName(); heroLens.repaint(); }
+    lensCanvas.style.opacity = schoolCanvas.style.opacity = (1 - e * .9).toFixed(3);
     if (heroText) { heroText.style.transform = `translate3d(0, ${(-e * 60).toFixed(1)}px, 0)`; heroText.style.opacity = (1 - e * .9).toFixed(3); }
     // the giant line slides sideways with the scroll
     if (marquee) { const r = marquee.getBoundingClientRect(); marquee.style.transform = `translate3d(${(-(vh - r.top) * .55).toFixed(1)}px, 0, 0)`; }
@@ -78,7 +105,7 @@ function choreograph() {
       card.style.transform = `scale(${(1 - k * .07).toFixed(4)})`; card.style.filter = `brightness(${(1 - k * .35).toFixed(3)})`;
     });
     // the dive blob turns and breathes as you pass through
-    if (diveArt && dive) { const r = dive.getBoundingClientRect(), d = (vh / 2 - (r.top + r.height / 2)) / vh; diveBlob.setSpin(d * 2.2); diveArt.style.transform = `scale(${(1 - Math.abs(d) * .25).toFixed(4)}) rotate(${(d * 25).toFixed(2)}deg)`; }
+    if (diveLens && dive) { const r = dive.getBoundingClientRect(); diveLens.setSpin((vh / 2 - (r.top + r.height / 2)) / vh * 2.2); }
   }
   // the water deepens while the dive band holds the middle of the screen
   if (dive) {

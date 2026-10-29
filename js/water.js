@@ -15,14 +15,19 @@ void main(){
   float light = fbm(uv * 1.6 + vec2(t, -t * .6) + fbm(uv * 1.2 - t) * .8);
   light = smoothstep(.45, .85, light);
   // gentle slanted rays from the surface
-  float ray = sin((suv.x * 1.2 + suv.y * .45) * 9.0 + uTime * .12) * .5 + .5;
-  ray = smoothstep(.7, 1.0, ray) * smoothstep(.25, 1.0, suv.y);
-  vec3 top = vec3(.176, .302, .314), mid = vec3(.137, .255, .259), low = vec3(.106, .204, .212);
+  // swaying beams of light from the surface
+  float sway = sin(uTime * .25) * .06 + sin(uTime * .11 + 2.0) * .04;
+  float bx = suv.x + (1.0 - suv.y) * (.35 + sway);
+  float ray = 0.0;
+  ray += smoothstep(.82, 1.0, sin(bx * 11.0 + uTime * .18) * .5 + .5);
+  ray += smoothstep(.88, 1.0, sin(bx * 23.0 - uTime * .27 + 1.7) * .5 + .5) * .6;
+  ray *= smoothstep(.15, 1.0, suv.y) * (.75 + .25 * sin(uTime * .6 + bx * 5.0));
+  vec3 top = vec3(.165, .345, .392), mid = vec3(.122, .286, .325), low = vec3(.086, .212, .247);
   vec3 surf = mix(low, mix(mid, top, smoothstep(.5, 1.0, suv.y)), smoothstep(0.0, .5, suv.y));
-  vec3 deep = mix(vec3(.047, .110, .118), vec3(.078, .157, .169), suv.y);
+  vec3 deep = mix(vec3(.031, .086, .110), vec3(.059, .141, .169), suv.y);
   vec3 col = mix(surf, deep, uDepth);
   col += vec3(.62, .92, .90) * light * mix(.07, .05, uDepth);
-  col += vec3(.75, .95, .95) * ray * mix(.06, .03, uDepth);
+  col += vec3(.75, .96, .98) * ray * mix(.075, .035, uDepth);
   gl_FragColor = vec4(col, 1.0);
 }`;
 

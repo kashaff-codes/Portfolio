@@ -2,12 +2,12 @@
    60% glacier neutrals · 30% teals · 10% rose/orchid · eggplant ink · acid lime only as a spark in the dive. */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --mist: #1E3436;         /* page base: deep slate teal */
-  --sheet: #24403F;
+  --mist: #1A383F;         /* page base: deep sea teal */
+  --sheet: #21434A;
   --ink: #EEF2F4;          /* text */
   --muted: #B4C4C6;
   --teal: #8FD9CF;         /* links and accents on dark */
-  --deep: #102326;
+  --deep: #0B1F26;
   --rose: #F08FA8;
   --rose-ink: #F4A9BD;     /* pink as text on dark */
   --orange: #FF8A5C;
@@ -34,6 +34,7 @@ code { font: .9em var(--mono); }
 .wrap { max-width: 1180px; margin: 0 auto; padding: 0 32px; }
 
 #water { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
+#sea { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 2; pointer-events: none; }
 #grain { position: fixed; inset: -50%; z-index: 1; pointer-events: none; opacity: .05; mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
 main, header.bar, footer { position: relative; z-index: 3; }
@@ -74,12 +75,16 @@ header.bar { position: absolute; top: 0; left: 0; right: 0; z-index: 30; }
 
 /* Hero: the name sits over a big liquid blob; a small school of fish swims around it */
 .hero { position: relative; min-height: 100vh; display: flex; align-items: center; padding: 120px 32px 90px; }
-.hero-text { position: relative; z-index: 2; max-width: 660px; }
+.hero-text { position: relative; z-index: 2; width: 100%; }
+.hero-copy { max-width: 640px; position: relative; z-index: 3; }
+#lens { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+.lensed .name span { color: transparent; }
 .eyebrow { font: 400 11px var(--mono); letter-spacing: .22em; text-transform: uppercase; color: var(--rose-ink); margin-bottom: 26px; }
-.name { font: 200 clamp(64px, 9.6vw, 150px)/.86 var(--display); text-transform: uppercase; letter-spacing: .02em; color: var(--ink); }
-.name span { display: block; white-space: nowrap; will-change: letter-spacing, transform; }
+.name { position: relative; z-index: 0; font: 200 clamp(68px, 11.5vw, 184px)/.86 var(--display); text-transform: uppercase; letter-spacing: .02em; color: var(--ink); }
+.name span { display: block; width: fit-content; white-space: nowrap; will-change: letter-spacing, transform; }
 .name .n2 { color: var(--teal); }
-.name .spark { font-style: normal; color: var(--rose); font-size: .28em; vertical-align: 1.7em; margin-left: .2em; }
+.name .spark { display: inline-block; font-style: normal; color: var(--rose); font-size: .24em; vertical-align: 1.9em; margin-left: .25em; animation: twinkle 3s ease-in-out infinite; }
+@keyframes twinkle { 50% { transform: scale(.6) rotate(45deg); opacity: .6; } }
 .hook { font: 400 clamp(22px, 2.2vw, 28px)/1.28 var(--serif); margin: 28px 0 12px; max-width: 32ch; }
 .hook em { font-style: italic; color: var(--rose-ink); }
 .sub { color: var(--muted); max-width: 46ch; margin-bottom: 22px; }
@@ -89,9 +94,7 @@ header.bar { position: absolute; top: 0; left: 0; right: 0; z-index: 30; }
 .proof p { font-size: 13.5px; color: var(--muted); line-height: 1.45; }
 .proof .mono { font-size: 9.5px; color: var(--teal); display: block; margin-bottom: 3px; }
 .paper { margin-top: 18px; font-size: 14px; }
-.hero-art { position: absolute; z-index: 0; right: -4vw; top: 50%; width: min(82vh, 60vw, 860px); aspect-ratio: 1; translate: 0 -50%; will-change: transform; }
-#hero-blob { width: 100%; height: 100%; display: block; }
-#school { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; image-rendering: pixelated; }
+#school { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; image-rendering: pixelated; }
 .hero-foot { position: absolute; z-index: 2; left: 32px; right: 32px; bottom: 26px; display: flex; justify-content: space-between; gap: 20px; font: 400 10px var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
 .hero-foot .hunt b { color: var(--rose-ink); font-weight: 400; }
 .hero-foot .hunt.done { color: var(--teal); }
@@ -161,7 +164,7 @@ details.case[open] summary::before { content: '− '; }
 .dive::before { content: ''; position: absolute; inset: 0; z-index: -2; background: var(--deep);
   -webkit-mask: linear-gradient(transparent, #000 160px, #000 calc(100% - 160px), transparent); mask: linear-gradient(transparent, #000 160px, #000 calc(100% - 160px), transparent); }
 #reef { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; image-rendering: pixelated; }
-#dive-blob { position: absolute; z-index: -1; left: 58%; top: 86%; width: min(95vh, 80vw); aspect-ratio: 1; translate: -50% -50%; opacity: .92; will-change: transform; }
+#dive-lens { position: absolute; z-index: -1; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .principle p, .principle small, .dive h2, .dive .head p { text-shadow: 0 2px 24px rgba(10, 24, 25, .55); }
 .dive a { color: var(--cyan); }
 .dive .head .idx { color: var(--orchid); }
@@ -252,7 +255,7 @@ dialog.viewer button { position: fixed; top: 18px; right: 18px; font: 400 11px v
 .motion .hero-text > :nth-child(6) { animation-delay: .42s; }
 .motion .hero-text > :nth-child(7) { animation-delay: .5s; }
 @keyframes blob-in { from { opacity: 0; transform: scale(.7); } to { opacity: 1; transform: none; } }
-.motion #hero-blob { animation: blob-in 1.8s var(--ease) both .1s; }
+.motion #lens { animation: blob-in 1.6s var(--ease) both .1s; }
 
 @media (max-width: 980px) {
   .side { grid-template-columns: repeat(2, 1fr); }
@@ -266,9 +269,8 @@ dialog.viewer button { position: fixed; top: 18px; right: 18px; font: 400 11px v
   .menu { display: block; }
   .depth { display: none; }
   .hero { padding: 96px 20px 110px; align-items: flex-start; }
-  .hero-art { width: 110vw; right: -52vw; top: 78%; opacity: .55; }
   .proof { flex-direction: column; align-items: flex-start; gap: 8px; }
-  #dive-blob { top: 82%; width: 120vw; }
+
   .hero-foot { left: 20px; right: 20px; flex-direction: column; }
   .quest { top: 12px; padding: 18px; border-radius: 22px; }
   .quest { grid-template-columns: 1fr; gap: 24px; padding: 40px 0; }
