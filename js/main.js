@@ -1,7 +1,7 @@
-import { water } from './water.js?v=19';
-import { lens } from './lens.js?v=19';
-import { sea as life } from './sea.js?v=19';
-import { school } from './school.js?v=19';
+import { water } from './water.js?v=20';
+import { lens } from './lens.js?v=20';
+import { sea as life } from './sea.js?v=20';
+import { school } from './school.js?v=20';
 
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const coarse = matchMedia('(pointer: coarse)').matches;
@@ -31,28 +31,27 @@ const measureName = () => {
   const rs = nameLines.map(n => n.getBoundingClientRect());
   const l = Math.min(...rs.map(r => r.left)), r = Math.max(...rs.map(r => r.right)), t = Math.min(...rs.map(r => r.top)), b = Math.max(...rs.map(r => r.bottom));
   nameBox = { x: (l - cr.left) * kx, y: (cr.bottom - b) * ky, w: (r - l) * kx, h: (b - t) * ky };
+  // the last F of KASHAF: right edge and vertical middle of the first line
+  nameBox.fx = (rs[0].right - cr.left) * kx; nameBox.fy = (cr.bottom - (rs[0].top + rs[0].height / 2)) * ky;
 };
 let home = null, popped = -1;
 const heroLens = lens(lensCanvas, {
   reduce,
   drops(W, H, t) {
     measureName();
-    const { x, y, w, h } = nameBox, R = Math.min(h * .3, w * .14);
-    const right = x + w, midY = y + h * .5;
-    const homeX = Math.min(right + R * 3.2, W - R * 1.4), contactX = right + R * 1.02;
+    const { x, y, w, h, fx, fy } = nameBox, R = Math.min(h * .3, w * .14);
+    const homeX = Math.min(fx + R * 3.4, W - R * 1.4), contactX = fx + R * 1.02;   // touching the F, never over it
     if (t0 === null) t0 = t;
-    const tt = t - t0, P = 8, cyc = Math.floor(tt / P), k = (tt % P) / P;
-    const back = v => { const c = 1.7; return 1 + (c + 1) * Math.pow(v - 1, 3) + c * Math.pow(v - 1, 2); };
-    let cx = homeX, r = R;
-    if (k < .12) r = R * back(k / .12);                                              // forms, with a little wobble
-    else if (k < .36) r = R;                                                          // rests
-    else if (k < .62) cx = homeX + (contactX - homeX) * Math.pow((k - .36) / .26, 3); // drawn to the name, faster and faster
-    else if (k < .665) { cx = contactX; r = R * (1 - (k - .62) / .045); }             // pops on contact
-    else r = 0;                                                                       // gone until it reforms
-    const cy = midY + Math.sin(tt * .9) * h * .05;
+    // back and forth forever: rest, glide in (speeding up), touch the F, bounce back home (slowing down)
+    const tt = t - t0, P = 4.2, cyc = Math.floor(tt / P), k = (tt % P) / P;
+    let cx = homeX;
+    if (k >= .12 && k < .52) cx = homeX + (contactX - homeX) * Math.pow((k - .12) / .4, 2);
+    else if (k >= .52) cx = contactX + (homeX - contactX) * (1 - Math.pow(1 - (k - .52) / .48, 3));
+    const r = R * (k >= .5 && k < .58 ? 1 - .06 * Math.sin((k - .5) / .08 * Math.PI) : 1);   // a tiny squish on contact
+    const cy = fy + Math.sin(tt * .9) * h * .03;
     const cr = lensCanvas.getBoundingClientRect(), kx = lensCanvas.width / cr.width, ky = lensCanvas.height / cr.height;
     home = { left: cr.left + (homeX - R) / kx, top: cr.bottom - (cy + R) / ky, width: 2 * R / kx, height: 2 * R / ky };
-    if (k >= .62 && popped !== cyc && !reduce) { popped = cyc; water2.burst(cr.left + (contactX - R) / kx, cr.bottom - cy / ky); }
+    if (k >= .52 && popped !== cyc && !reduce) { popped = cyc; water2.puff(cr.left + (contactX - R) / kx, cr.bottom - cy / ky); }
     const a = -tt * 1.2, r1 = r * .45;
     return [[cx, cy, Math.max(r, .001)], [cx + Math.cos(a) * r * 1.05 + r * .35, cy + Math.sin(a) * r * .7, Math.max(r1, .001)]];
   },
