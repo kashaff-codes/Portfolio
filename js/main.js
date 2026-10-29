@@ -1,7 +1,7 @@
-import { water } from './water.js?v=10';
-import { lens } from './lens.js?v=10';
-import { sea as life } from './sea.js?v=10';
-import { school } from './school.js?v=10';
+import { water } from './water.js?v=14';
+import { lens } from './lens.js?v=14';
+import { sea as life } from './sea.js?v=14';
+import { school } from './school.js?v=14';
 
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const coarse = matchMedia('(pointer: coarse)').matches;
@@ -27,18 +27,19 @@ const nameLines = [...document.querySelectorAll('.name > span')];
 let nameBox = null;
 const measureName = () => {
   // the box around the letters themselves (each line is sized to its text)
-  const cr = lensCanvas.getBoundingClientRect(), k = lensCanvas.width / cr.width;
+  const cr = lensCanvas.getBoundingClientRect(), kx = lensCanvas.width / cr.width, ky = lensCanvas.height / cr.height;
   const rs = nameLines.map(n => n.getBoundingClientRect());
   const l = Math.min(...rs.map(r => r.left)), r = Math.max(...rs.map(r => r.right)), t = Math.min(...rs.map(r => r.top)), b = Math.max(...rs.map(r => r.bottom));
-  nameBox = { x: (l - cr.left) * k, y: (cr.bottom - b) * k, w: (r - l) * k, h: (b - t) * k };
+  nameBox = { x: (l - cr.left) * kx, y: (cr.bottom - b) * ky, w: (r - l) * kx, h: (b - t) * ky };
 };
 const heroLens = lens(lensCanvas, {
   reduce, textEls: nameLines,
   drops(W, H, t) {
     if (!nameBox) measureName();
     const { x, y, w, h } = nameBox, R = Math.min(h * .38, w * .17);
-    const cx = x + w * (.52 + .3 * Math.sin(t * .11)), cy = y + h * (.5 + .1 * Math.sin(t * .19 + 1));
-    const a = t * .35, R1 = R * .46;
+    // enters from the right (cos starts at 1) and sweeps left across the name, then back
+    const cx = x + w * (.55 + .62 * Math.cos(t * .3)), cy = y + h * (.5 + .12 * Math.sin(t * .45 + 1));
+    const a = -t * .85, R1 = R * .46;
     return [[cx, cy, R], [cx + Math.cos(a) * R * 1.12, cy + Math.sin(a) * R * .8, R1]];
   },
 });
@@ -48,8 +49,9 @@ const fishApi = school(schoolCanvas, { reduce, centerEl: { getBoundingClientRect
 const diveLens = lens(document.getElementById('dive-lens'), {
   reduce,
   drops(W, H, t) {
-    const R = Math.min(W, H) * .2, cx = W * (.72 + .08 * Math.sin(t * .09)), cy = H * (.3 + .06 * Math.cos(t * .13));
-    return [[cx, cy, R], [cx - R * 1.3 + Math.cos(t * .3) * R * .3, cy + R * .6 + Math.sin(t * .3) * R * .2, R * .55]];
+    // low and to the right, below the three rules, so it never sits on the text
+    const R = Math.min(W, H) * .13, cx = W * (.7 + .14 * Math.sin(t * .2)), cy = H * (.25 + .03 * Math.cos(t * .27));
+    return [[cx, cy, R], [cx - R * 1.25 + Math.cos(t * .6) * R * .3, cy - R * .25 + Math.sin(t * .6) * R * .2, R * .55]];
   },
 });
 window.__site = { fish: fishApi };

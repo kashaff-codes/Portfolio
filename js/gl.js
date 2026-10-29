@@ -1,7 +1,7 @@
 // Tiny WebGL helper: one full-screen triangle and a fragment shader.
 const VERT = `attribute vec2 p; void main(){ gl_Position = vec4(p, 0.0, 1.0); }`;
 
-export function shaderCanvas(canvas, frag, { maxDpr = 1.5, alpha = true } = {}) {
+export function shaderCanvas(canvas, frag, { maxDpr = 1.5, alpha = true, onResize } = {}) {
   const gl = canvas.getContext('webgl', { alpha, premultipliedAlpha: true, antialias: false, powerPreference: 'low-power' });
   if (!gl) return null;
   const compile = (type, src) => {
@@ -27,6 +27,7 @@ export function shaderCanvas(canvas, frag, { maxDpr = 1.5, alpha = true } = {}) 
     gl.viewport(0, 0, canvas.width, canvas.height);
   }
   resize();
+  if (window.ResizeObserver) new ResizeObserver(() => { const w = canvas.width, h = canvas.height; resize(); if ((w !== canvas.width || h !== canvas.height) && onResize) onResize(); }).observe(canvas);
   return {
     gl, u, resize, get dpr() { return dpr; },
     draw(set) { gl.useProgram(prog); gl.uniform2f(u('uRes'), canvas.width, canvas.height); set && set(gl, u); gl.drawArrays(gl.TRIANGLES, 0, 3); },

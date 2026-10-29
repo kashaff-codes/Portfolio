@@ -25,7 +25,7 @@ export function school(canvas, { reduce, centerEl, avoidEl, onFound }) {
   size(); addEventListener('resize', size);
   const rand = (a, b) => a + Math.random() * (b - a);
   const kinds = ['rose', 'cyan', 'orchid', 'rose', 'cyan', 'rose', 'orchid'];
-  const fish = kinds.map((k, i) => ({ a: rand(0, 6.28), rr: rand(1.25, 1.6), sp: rand(.0016, .0026) * (i % 3 ? 1 : 1), dy: rand(-.25, .25), pal: PAL[k], ph: rand(0, 6), glitch: i === 3, x: 0, y: 0, ox: 0, oy: 0, flip: false }));
+  const fish = kinds.map((k, i) => ({ a: rand(0, 6.28), rr: rand(1.25, 1.6), sp: -rand(.0034, .005), dy: rand(-.25, .25), pal: PAL[k], ph: rand(0, 6), glitch: i === 3, x: 0, y: 0, ox: 0, oy: 0, flip: false }));
   let mouse = { x: -1e4, y: -1e4 };
   addEventListener('pointermove', e => { const r = canvas.getBoundingClientRect(); mouse = { x: (e.clientX - r.left) / S, y: (e.clientY - r.top) / S }; }, { passive: true });
 
