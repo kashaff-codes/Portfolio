@@ -1,7 +1,7 @@
-import { water } from './water.js?v=16';
-import { lens } from './lens.js?v=16';
-import { sea as life } from './sea.js?v=16';
-import { school } from './school.js?v=16';
+import { water } from './water.js?v=19';
+import { lens } from './lens.js?v=19';
+import { sea as life } from './sea.js?v=19';
+import { school } from './school.js?v=19';
 
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const coarse = matchMedia('(pointer: coarse)').matches;
@@ -10,7 +10,7 @@ const ease = p => 1 - Math.pow(1 - p, 3);
 document.documentElement.classList.add('motion');
 
 const sea = water(document.getElementById('water'), { reduce });
-life(document.getElementById('sea'), { reduce });
+const water2 = life(document.getElementById('sea'), { reduce });
 
 /* ---------- Toast ---------- */
 const toast = document.getElementById('toast');
@@ -24,7 +24,7 @@ function celebrate() {
 /* ---------- Hero: liquid glass drifting over the name, and a school of fish around it ---------- */
 const nameEl = document.querySelector('.name'), lensCanvas = document.getElementById('lens'), schoolCanvas = document.getElementById('school');
 const nameLines = [...document.querySelectorAll('.name > span')];
-let nameBox = null;
+let nameBox = null, t0 = null;
 const measureName = () => {
   // the box around the letters themselves (each line is sized to its text)
   const cr = lensCanvas.getBoundingClientRect(), kx = lensCanvas.width / cr.width, ky = lensCanvas.height / cr.height;
@@ -32,28 +32,33 @@ const measureName = () => {
   const l = Math.min(...rs.map(r => r.left)), r = Math.max(...rs.map(r => r.right)), t = Math.min(...rs.map(r => r.top)), b = Math.max(...rs.map(r => r.bottom));
   nameBox = { x: (l - cr.left) * kx, y: (cr.bottom - b) * ky, w: (r - l) * kx, h: (b - t) * ky };
 };
+let home = null, popped = -1;
 const heroLens = lens(lensCanvas, {
-  reduce, textEls: nameLines,
+  reduce,
   drops(W, H, t) {
-    measureName();   // cheap, and always right even while fonts load or the page resizes
-    const { x, y, w, h } = nameBox, R = Math.min(h * .38, w * .17);
-    // its own spot: in the open water to the right of the name
-    const homeX = Math.min(x + w + R * 1.7, W - R * 1.3), midY = y + h * .5;
-    // a loop: rest at home, flow into the name, sweep across it, glide home, rest again
-    const P = 15, k = (t % P) / P, sm = v => v * v * (3 - 2 * v);
-    let cx;
-    if (k < .2) cx = homeX;                                                              // resting
-    else if (k < .42) cx = homeX + (x + w * .72 - homeX) * sm((k - .2) / .22);           // flows into the name
-    else if (k < .62) cx = x + w * (.72 - .42 * sm((k - .42) / .2));                     // sweeps across it
-    else cx = x + w * .3 + (homeX - x - w * .3) * sm((k - .62) / .38);                   // glides back home
-    const cy = midY + Math.sin(t * .9) * h * .06 + Math.sin(t * .37) * h * .04;            // a gentle bob throughout
-    const a = -t * .85, R1 = R * .46;
-    return [[cx, cy, R], [cx + Math.cos(a) * R * 1.12, cy + Math.sin(a) * R * .8, R1]];
+    measureName();
+    const { x, y, w, h } = nameBox, R = Math.min(h * .3, w * .14);
+    const right = x + w, midY = y + h * .5;
+    const homeX = Math.min(right + R * 3.2, W - R * 1.4), contactX = right + R * 1.02;
+    if (t0 === null) t0 = t;
+    const tt = t - t0, P = 8, cyc = Math.floor(tt / P), k = (tt % P) / P;
+    const back = v => { const c = 1.7; return 1 + (c + 1) * Math.pow(v - 1, 3) + c * Math.pow(v - 1, 2); };
+    let cx = homeX, r = R;
+    if (k < .12) r = R * back(k / .12);                                              // forms, with a little wobble
+    else if (k < .36) r = R;                                                          // rests
+    else if (k < .62) cx = homeX + (contactX - homeX) * Math.pow((k - .36) / .26, 3); // drawn to the name, faster and faster
+    else if (k < .665) { cx = contactX; r = R * (1 - (k - .62) / .045); }             // pops on contact
+    else r = 0;                                                                       // gone until it reforms
+    const cy = midY + Math.sin(tt * .9) * h * .05;
+    const cr = lensCanvas.getBoundingClientRect(), kx = lensCanvas.width / cr.width, ky = lensCanvas.height / cr.height;
+    home = { left: cr.left + (homeX - R) / kx, top: cr.bottom - (cy + R) / ky, width: 2 * R / kx, height: 2 * R / ky };
+    if (k >= .62 && popped !== cyc && !reduce) { popped = cyc; water2.burst(cr.left + (contactX - R) / kx, cr.bottom - cy / ky); }
+    const a = -tt * 1.2, r1 = r * .45;
+    return [[cx, cy, Math.max(r, .001)], [cx + Math.cos(a) * r * 1.05 + r * .35, cy + Math.sin(a) * r * .7, Math.max(r1, .001)]];
   },
 });
-if (heroLens) document.querySelector('.hero').classList.add('lensed');
-addEventListener('resize', () => { measureName(); heroLens && heroLens.repaint(); });
-const fishApi = school(schoolCanvas, { reduce, centerEl: { getBoundingClientRect: () => (heroLens ? heroLens.box() : nameEl.getBoundingClientRect()) }, avoidEl: document.querySelector('.hero-copy'), onFound: celebrate });
+addEventListener('resize', () => measureName());
+const fishApi = school(schoolCanvas, { reduce, centerEl: { getBoundingClientRect: () => home || nameEl.getBoundingClientRect() }, avoidEl: document.querySelector('.hero-copy'), onFound: celebrate });
 const diveLens = lens(document.getElementById('dive-lens'), {
   reduce,
   drops(W, H, t) {
@@ -101,7 +106,6 @@ function choreograph() {
     const e = clamp(scrollY / (vh * .95));
     heroLens && heroLens.setSpin(e * 2.2);
     nameLines.forEach((n, i) => { n.style.letterSpacing = (.02 + e * .22).toFixed(3) + 'em'; n.style.transform = `translate3d(${((i ? 1 : -1) * e * 6).toFixed(2)}vw, 0, 0)`; });
-    if (heroLens) { measureName(); heroLens.repaint(); }
     lensCanvas.style.opacity = schoolCanvas.style.opacity = (1 - e * .9).toFixed(3);
     if (heroText) { heroText.style.transform = `translate3d(0, ${(-e * 60).toFixed(1)}px, 0)`; heroText.style.opacity = (1 - e * .9).toFixed(3); }
     // the giant line slides sideways with the scroll

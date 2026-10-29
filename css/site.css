@@ -77,7 +77,7 @@ header.bar { position: absolute; top: 0; left: 0; right: 0; z-index: 30; }
 .hero { position: relative; min-height: 100vh; display: flex; align-items: center; padding: 120px 32px 90px; }
 .hero-text { position: relative; z-index: 2; width: 100%; }
 .hero-copy { max-width: 640px; position: relative; z-index: 3; }
-#lens { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+#lens { position: absolute; top: 0; bottom: 0; left: calc(50% - 50vw); width: 100vw; height: 100%; z-index: 1; pointer-events: none; }
 .lensed .name span { color: transparent; }
 .eyebrow { font: 400 11px var(--mono); letter-spacing: .22em; text-transform: uppercase; color: var(--rose-ink); margin-bottom: 26px; }
 .name { position: relative; z-index: 0; font: 200 clamp(68px, 11.5vw, 184px)/.86 var(--display); text-transform: uppercase; letter-spacing: .02em; color: var(--ink); }
@@ -94,7 +94,7 @@ header.bar { position: absolute; top: 0; left: 0; right: 0; z-index: 30; }
 .proof p { font-size: 13.5px; color: var(--muted); line-height: 1.45; }
 .proof .mono { font-size: 9.5px; color: var(--teal); display: block; margin-bottom: 3px; }
 .paper { margin-top: 18px; font-size: 14px; }
-#school { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; image-rendering: pixelated; }
+#school { position: absolute; top: 0; bottom: 0; left: calc(50% - 50vw); width: 100vw; height: 100%; z-index: 2; pointer-events: none; image-rendering: pixelated; }
 .hero-foot { position: absolute; z-index: 2; left: 32px; right: 32px; bottom: 26px; display: flex; justify-content: space-between; gap: 20px; font: 400 10px var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
 .hero-foot .hunt b { color: var(--rose-ink); font-weight: 400; }
 .hero-foot .hunt.done { color: var(--teal); }

@@ -17,7 +17,7 @@ float lobe(vec2 p, vec3 b, float seed){
   vec2 ring = vec2(cos(a), sin(a)) * .9 + seed;
   return length(d) - b.z * (1.0 + (soft(ring + vec2(uTime * .12, -uTime * .1)) - .5) * .22);
 }
-float field(vec2 p){ return smin(lobe(p, uB0, 1.3), lobe(p, uB1, 6.1), uB0.z * .45); }
+float field(vec2 p){ return smin(lobe(p, uB0, 1.3), lobe(p, uB1, 6.1), max(uB0.z * .45, .001)); }
 vec4 txt(vec2 px){ vec2 uv = px / uRes; return uHasText > .5 ? texture2D(uText, uv) : vec4(0.0); }
 void main(){
   vec2 p = gl_FragCoord.xy;
@@ -27,7 +27,7 @@ void main(){
   vec4 base = txt(p);
   float aa = smoothstep(1.5, -1.5, d);
   // light bent through the drop lands as a faint caustic glow just outside its edge
-  vec3 halo = vec3(.41, .85, .96) * exp(-max(d, 0.0) / (R * .12)) * .10 * (1.0 - aa);
+  vec3 halo = vec3(.41, .85, .96) * exp(-max(d, 0.0) / max(R * .12, .001)) * .10 * (1.0 - aa) * step(2.0, R);
   if (aa <= 0.0) { gl_FragColor = vec4(base.rgb + halo, max(base.a, length(halo))); return; }
   vec2 e = vec2(2.0, 0.0);
   vec2 g = vec2(field(q + e.xy) - field(q - e.xy), field(q + e.yx) - field(q - e.yx));

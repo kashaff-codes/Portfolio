@@ -72,5 +72,11 @@ export function sea(canvas, { reduce }) {
     for (let i = 0; i < 6; i++) bursts.push({ kind: 's', x: e.clientX, y: e.clientY, vx: rand(-2.4, 2.4), vy: rand(-2.4, 1), c: ['#F08FA8', '#8FD9CF', '#D4FF24', '#E7B0DE'][i % 4], life: Math.round(rand(30, 50)) });
     if (reduce) requestAnimationFrame(frame);
   });
-  return { burst(x, y) { for (let i = 0; i < 6; i++) bursts.push({ kind: 'b', x, y, vx: rand(-1, 1), vy: rand(-2, -.5), r: 2, life: 60 }); } };
+  return {
+    burst(x, y) {
+      for (let i = 0; i < 18; i++) bursts.push({ kind: 'b', x: x + rand(-14, 14), y: y + rand(-50, 50), vx: rand(.4, 3.2), vy: rand(-2.6, .8), r: Math.round(rand(2, 6)), life: Math.round(rand(55, 100)) });
+      for (let i = 0; i < 8; i++) bursts.push({ kind: 's', x, y: y + rand(-40, 40), vx: rand(.4, 2.8), vy: rand(-2, 1.2), c: ['#F08FA8', '#8FD9CF', '#D4FF24', '#E7B0DE'][i % 4], life: Math.round(rand(28, 46)) });
+      if (reduce) requestAnimationFrame(frame);
+    },
+  };
 }
