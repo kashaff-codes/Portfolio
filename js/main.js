@@ -1,7 +1,7 @@
-import { water } from './water.js?v=14';
-import { lens } from './lens.js?v=14';
-import { sea as life } from './sea.js?v=14';
-import { school } from './school.js?v=14';
+import { water } from './water.js?v=16';
+import { lens } from './lens.js?v=16';
+import { sea as life } from './sea.js?v=16';
+import { school } from './school.js?v=16';
 
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const coarse = matchMedia('(pointer: coarse)').matches;
@@ -35,10 +35,18 @@ const measureName = () => {
 const heroLens = lens(lensCanvas, {
   reduce, textEls: nameLines,
   drops(W, H, t) {
-    if (!nameBox) measureName();
+    measureName();   // cheap, and always right even while fonts load or the page resizes
     const { x, y, w, h } = nameBox, R = Math.min(h * .38, w * .17);
-    // enters from the right (cos starts at 1) and sweeps left across the name, then back
-    const cx = x + w * (.55 + .62 * Math.cos(t * .3)), cy = y + h * (.5 + .12 * Math.sin(t * .45 + 1));
+    // its own spot: in the open water to the right of the name
+    const homeX = Math.min(x + w + R * 1.7, W - R * 1.3), midY = y + h * .5;
+    // a loop: rest at home, flow into the name, sweep across it, glide home, rest again
+    const P = 15, k = (t % P) / P, sm = v => v * v * (3 - 2 * v);
+    let cx;
+    if (k < .2) cx = homeX;                                                              // resting
+    else if (k < .42) cx = homeX + (x + w * .72 - homeX) * sm((k - .2) / .22);           // flows into the name
+    else if (k < .62) cx = x + w * (.72 - .42 * sm((k - .42) / .2));                     // sweeps across it
+    else cx = x + w * .3 + (homeX - x - w * .3) * sm((k - .62) / .38);                   // glides back home
+    const cy = midY + Math.sin(t * .9) * h * .06 + Math.sin(t * .37) * h * .04;            // a gentle bob throughout
     const a = -t * .85, R1 = R * .46;
     return [[cx, cy, R], [cx + Math.cos(a) * R * 1.12, cy + Math.sin(a) * R * .8, R1]];
   },
